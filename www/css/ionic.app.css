@@ -15,6 +15,7 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+/* MENU LEFT VARS */
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
@@ -7674,3 +7675,12 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+.menu-left {
+  background-color: #333; }
+  .menu-left .item, .menu-left .item-complex .item-content {
+    background-color: #333;
+    color: #eee; }
+    .menu-left .item i, .menu-left .item-complex .item-content i {
+      font-size: 22px;
+      margin-right: 10px; }

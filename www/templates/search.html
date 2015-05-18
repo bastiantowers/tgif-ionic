@@ -13,9 +13,8 @@
     </div>
 
     <div class="list">
-        <a class="item item-avatar" href="{{p.permalink}}" target="_system"
-            ng-repeat='p in productos'
-            ng-if='p.price > 7000'>
+        <a class="item item-avatar" href="{{p.permalink}}"
+            ng-repeat='p in productos'>
           <img src="{{p.thumbnail}}">
           <h2>{{p.title}}</h2>
           <p>{{p.price}}</p>

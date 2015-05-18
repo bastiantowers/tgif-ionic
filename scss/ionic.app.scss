@@ -17,9 +17,28 @@ $dark:                            #444 !default;
 
 $bar-stable-bg: #fff059;
 
+/* MENU LEFT VARS */
+$bg-menu-left: #333;
+$border-color: #eee;
+$font-color: #eee;
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+
+.menu-left{
+    background-color: $bg-menu-left;
+    .item, .item-complex .item-content{
+        background-color: $bg-menu-left;
+        color: $font-color;
+
+        i{
+            font-size: 22px;
+            margin-right: 10px;
+        }
+    }
+}
 
