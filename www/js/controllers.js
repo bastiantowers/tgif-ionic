@@ -47,12 +47,39 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('SearchCtrl', function($scope, $stateParams, meli) {
+.controller('SearchCtrl', function($scope, $stateParams, meli, $ionicLoading) {
   $scope.buscar = function(){
     console.log('Buscamos...');
+    $ionicLoading.show({
+      template: '<i class="icon ion-loading-a"></i>'
+    });
     meli.buscar($scope.inputSearch).success(function(res){
       console.log('Meli response: ',res)
       $scope.productos = res.results;
+      $ionicLoading.hide();
     })
   }
-});
+})
+
+.controller('CameraCtrl', function($scope, $stateParams, $ionicPlatform) {
+  // Chequeamos que este todo listo para activar el ng-cordova que sea
+  $ionicPlatform.ready(function() {
+    $scope.takePhoto = function(){
+      console.log('take me a photo');
+      navigator.camera.getPicture(onSuccess, onFail, { quality: 100,
+          destinationType: Camera.DestinationType.DATA_URL
+      });
+
+      function onSuccess(imageData) {
+          var image = document.getElementById('showMyPhoto');
+          image.style.display = 'block';
+          image.src = "data:image/jpeg;base64," + imageData;
+      }
+
+      function onFail(message) {
+          alert('Failed because: ' + message);
+      }
+    }
+  });
+})
+;
