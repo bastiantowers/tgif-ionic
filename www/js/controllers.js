@@ -47,12 +47,17 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('SearchCtrl', function($scope, $stateParams, meli) {
+.controller('SearchCtrl', function($scope, $stateParams, meli, $ionicLoading, $timeout) {
   $scope.buscar = function(){
     console.log('Buscamos...');
+      $ionicLoading.show({
+        template: 'Loading...'
+      });
     meli.buscar($scope.inputSearch).success(function(res){
       console.log('Meli response: ',res)
       $scope.productos = res.results;
+      $ionicLoading.hide();
     })
+    $timeout($ionicLoading.hide, 3000);
   }
 });
