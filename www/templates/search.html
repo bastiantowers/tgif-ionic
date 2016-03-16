@@ -13,12 +13,20 @@
     </div>
 
     <div class="list">
-        <a class="item item-avatar" href="{{p.permalink}}"
-            ng-repeat='p in productos'>
-          <img src="{{p.thumbnail}}">
-          <h2>{{p.title}}</h2>
-          <p>{{p.price}}</p>
-        </a>
+        <ul>
+          <li ng-repeat='p in productos' class="row search-items">
+              <div class="col col-90">
+                <a class="item item-avatar" href="{{p.permalink}}">
+                  <img src="{{p.thumbnail}}">
+                  <h2>{{p.title}}</h2>
+                  <p>{{p.price}}</p>
+                </a>
+              </div>
+              <div class="col col-center addToFavs" ng-click="addToFavs(p)">
+                <i class="ion-android-favorite-outline"></i>
+              </div>
+          </li>
+        </ul>
     </div>
 
   </ion-content>

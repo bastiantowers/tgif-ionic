@@ -7676,6 +7676,13 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.empty-favs {
+  padding-top: 25%;
+  padding-top: 40vh; }
+
+.tcenter {
+  text-align: center; }
+
 .menu-left {
   background-color: #333; }
   .menu-left .item, .menu-left .item-complex .item-content {
@@ -7684,3 +7691,13 @@ a.button {
     .menu-left .item i, .menu-left .item-complex .item-content i {
       font-size: 22px;
       margin-right: 10px; }
+
+.search-items {
+  border-top: 1px solid #ddd; }
+  .search-items i {
+    font-size: 6vh;
+    color: red; }
+  .search-items .col a {
+    border: none; }
+  .search-items .col:nth-child(2) {
+    text-align: center; }

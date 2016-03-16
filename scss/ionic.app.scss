@@ -28,6 +28,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.empty-favs {
+	padding-top: 25%;
+	padding-top: 40vh;
+}
+.tcenter {
+	text-align: center;
+}
 
 .menu-left{
     background-color: $bg-menu-left;
@@ -40,5 +47,21 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
             margin-right: 10px;
         }
     }
+}
+
+.search-items {
+	border-top: 1px solid #ddd;
+	i {
+		font-size: 6vh;
+		color: red;
+	}
+	.col {
+		a {
+			border: none;
+		}
+		&:nth-child(2) {
+			text-align: center;
+		}
+	}
 }
 

@@ -1,0 +1,29 @@
+<ion-view view-title="Favoritos" cache-view="false">
+  <ion-content>
+  	<!-- Se muestra cuando no hay items en la DB -->
+  	<div class="row empty-favs" ng-hide="favorites.length > 0">
+  		<div class="col col-center tcenter">
+  			<i class="ion-android-favorite-outline"></i> No tienes favoritos...
+  		</div>
+  	</div>
+
+  	<!-- si hay items en la DB... los mostramos -->
+    <div class="list" ng-show="favorites">
+        <ul>
+          <li ng-repeat='p in favorites' class="row search-items">
+              <div class="col col-90">
+                <a class="item item-avatar" href="{{p.doc.permalink}}">
+                  <img src="{{p.doc.thumbnail}}">
+                  <h2>{{p.doc.title}}</h2>
+                  <p>{{p.doc.price}}</p>
+                </a>
+              </div>
+              <div class="col col-center" ng-click="removeFav(p.doc)">
+                <i class="ion-trash-b"></i>
+              </div>
+          </li>
+        </ul>
+    </div>
+
+  </ion-content>
+</ion-view>

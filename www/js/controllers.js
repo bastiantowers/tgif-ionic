@@ -1,63 +1,77 @@
+var test;
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-  // Form data for the login modal
-  $scope.loginData = {};
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, pouchDB) {
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+  $scope.db = pouchDB('favs');
+  $scope.remoteDB = false;
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
+.controller('SearchCtrl', function($scope, $stateParams, meli, $ionicLoading, $timeout, pouchDB) {
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
-})
-
-.controller('SearchCtrl', function($scope, $stateParams, meli, $ionicLoading, $timeout) {
   $scope.buscar = function(){
-    console.log('Buscamos...');
+    //console.log('Buscamos...');
       $ionicLoading.show({
         template: 'Loading...'
       });
     meli.buscar($scope.inputSearch).success(function(res){
-      console.log('Meli response: ',res)
+      //console.log('Meli response: ',res)
       $scope.productos = res.results;
       $ionicLoading.hide();
     })
     $timeout($ionicLoading.hide, 3000);
+  };
+
+  $scope.addToFavs = function (p) {
+    //console.log(p);
+    p._id = new Date().toISOString();
+    $scope.db.put(p)
+      .then(function(){
+        $ionicLoading.show({
+          template: 'Agregado a Favoritos...'
+        });
+        $timeout($ionicLoading.hide, 3000);
+      }).catch(function(){
+        $ionicLoading.show({
+          template: 'No se pudo agregar a Favoritos...'
+        });
+        $timeout($ionicLoading.hide, 3000);
+      });
   }
-});
+})
+.controller('FavsCtrl', function($scope, $log, $stateParams, meli, $ionicLoading, $timeout, pouchDB) {
+  $log.log('FavsCtrl READY');
+
+  $scope.favorites;
+
+  function getAllDocs(){
+    $scope.db.allDocs({include_docs:true})
+    .then(function(docs){
+      $scope.favorites = docs.rows;
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+  }
+
+  $scope.removeFav = function(doc) {
+    $scope.db.remove(doc)
+      .then(function(){
+        $ionicLoading.show({
+          template: 'Favorito borrado'
+        });
+        $timeout($ionicLoading.hide, 3000);
+      })
+      .then(getAllDocs)
+      .catch(function(){
+        $ionicLoading.show({
+          template: 'No se pudo quitar este item'
+        });
+        $timeout($ionicLoading.hide, 3000);
+      });
+  };
+
+  getAllDocs();
+
+})
+;
