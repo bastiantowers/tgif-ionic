@@ -4,7 +4,11 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, pouchDB) {
 
   $scope.db = pouchDB('favs');
-  $scope.remoteDB = false;
+  $scope.remoteDB = pouchDB('http://127.0.0.1:5984/favs');
+
+  $scope.db.sync($scope.remoteDB, { live: true, include_docs: true});
+
+  //test = pouchDB;
 })
 
 .controller('SearchCtrl', function($scope, $stateParams, meli, $ionicLoading, $timeout, pouchDB) {
