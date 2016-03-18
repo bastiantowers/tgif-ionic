@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'pouchdb'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $pouchDB) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,6 +17,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'pouchdb'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    // Setamos las BDs de Pouchy
+    $pouchDB.setDatabase("favs");
+    $pouchDB.sync("http://127.0.0.1:5984/favs");
 
   });
 })

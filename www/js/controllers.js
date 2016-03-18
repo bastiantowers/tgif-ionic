@@ -1,17 +1,23 @@
-var test;
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, pouchDB) {
+.controller('AppCtrl', function($rootScope, $scope, $ionicModal, $timeout, $pouchDB) {
+  $scope.items = {};
 
-  $scope.db = pouchDB('favs');
-  $scope.remoteDB = pouchDB('http://127.0.0.1:5984/favs');
+      $pouchDB.startListening();
 
-  $scope.db.sync($scope.remoteDB, { live: true, include_docs: true});
+      $rootScope.$on("$pouchDB:change", function(event, data) {
+          $scope.items[data.doc._id] = data.doc;
+          $scope.$apply();
+      });
 
-  //test = pouchDB;
+      $rootScope.$on("$pouchDB:delete", function(event, data) {
+          delete $scope.items[data.doc._id];
+          $scope.$apply();
+      });
+
 })
 
-.controller('SearchCtrl', function($scope, $stateParams, meli, $ionicLoading, $timeout, pouchDB) {
+.controller('SearchCtrl', function($rootScope, $scope, $stateParams, meli, $ionicLoading, $timeout, $pouchDB) {
 
   $scope.buscar = function(){
     //console.log('Buscamos...');
@@ -27,9 +33,8 @@ angular.module('starter.controllers', [])
   };
 
   $scope.addToFavs = function (p) {
-    //console.log(p);
     p._id = new Date().toISOString();
-    $scope.db.put(p)
+    $pouchDB.save(p)
       .then(function(){
         $ionicLoading.show({
           template: 'Agregado a Favoritos...'
@@ -43,13 +48,25 @@ angular.module('starter.controllers', [])
       });
   }
 })
-.controller('FavsCtrl', function($scope, $log, $stateParams, meli, $ionicLoading, $timeout, pouchDB) {
-  $log.log('FavsCtrl READY');
+.controller('FavsCtrl', function($rootScope, $scope, $log, $stateParams, meli, $ionicLoading, $timeout, $pouchDB) {
+    $scope.items = {};
+
+      $pouchDB.startListening();
+
+      $rootScope.$on("$pouchDB:change", function(event, data) {
+          $scope.items[data.doc._id] = data.doc;
+          $scope.$apply();
+      });
+
+      $rootScope.$on("$pouchDB:delete", function(event, data) {
+          delete $scope.items[data.doc._id];
+          $scope.$apply();
+      });
 
   $scope.favorites;
 
   function getAllDocs(){
-    $scope.db.allDocs({include_docs:true})
+    $pouchDB.allDocs({include_docs:true})
     .then(function(docs){
       $scope.favorites = docs.rows;
     })
@@ -59,7 +76,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.removeFav = function(doc) {
-    $scope.db.remove(doc)
+    $pouchDB.delete(doc._id, doc._rev)
       .then(function(){
         $ionicLoading.show({
           template: 'Favorito borrado'
