@@ -21,6 +21,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'pouchdb'])
     // Setamos las BDs de Pouchy
     $pouchDB.setDatabase("favs");
     $pouchDB.sync("http://127.0.0.1:5984/favs");
+    $pouchDB.startListening();
 
   });
 })

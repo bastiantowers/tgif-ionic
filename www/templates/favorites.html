@@ -1,16 +1,16 @@
 <ion-view view-title="Favoritos" cache-view="false">
   <ion-content>
   	<!-- Se muestra cuando no hay items en la DB -->
-  	<div class="row empty-favs" ng-hide="favorites.length > 0">
+  	<div class="row empty-favs" ng-hide="items.length > 0">
   		<div class="col col-center tcenter">
   			<i class="ion-android-favorite-outline"></i> No tienes favoritos...
   		</div>
   	</div>
 
   	<!-- si hay items en la DB... los mostramos -->
-    <div class="list" ng-show="favorites">
+    <div class="list" ng-show="items">
         <ul>
-          <li ng-repeat='p in favorites' class="row search-items">
+          <li ng-repeat='p in items' class="row search-items">
               <div class="col col-90">
                 <a class="item item-avatar" href="{{p.doc.permalink}}">
                   <img src="{{p.doc.thumbnail}}">

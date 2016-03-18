@@ -23,7 +23,8 @@ angular.module('starter')
     this.startListening = function() {
         changeListener = database.changes({
             live: true,
-            include_docs: true
+            include_docs: true,
+            since: 'now'
         }).on("change", function(change) {
             if(!change.deleted) {
                 $rootScope.$broadcast("$pouchDB:change", change);
@@ -33,9 +34,9 @@ angular.module('starter')
         });
     }
 
-    this.stopListening = function() {
-        changeListener.cancel();
-    }
+    // this.stopListening = function() {
+    //     changeListener.cancel();
+    // }
 
     this.sync = function(remoteDatabase) {
         database.sync(remoteDatabase, {live: true, retry: true});
